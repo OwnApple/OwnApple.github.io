@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="doraemon-pattern" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+      <!-- 铃铛 -->
+      <circle cx="25" cy="25" r="8" fill="#FFD700" opacity="0.2"/>
+      <circle cx="25" cy="25" r="6" fill="#FF4949" opacity="0.2"/>
+      <!-- 竹蜻蜓 -->
+      <path d="M10 10 L15 5 L20 10" stroke="#0099E9" stroke-width="2" opacity="0.2"/>
+      <circle cx="15" cy="10" r="2" fill="#0099E9" opacity="0.2"/>
+    </pattern>
+  </defs>
+  <rect width="100" height="100" fill="url(#doraemon-pattern)"/>
+</svg>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OwnApple 的作品集 - 融合哆啦A梦元素的个人网站</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 主要内容区域 -->
+    <div class="main-content" id="main-content">
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="name">OwnApple</h1>
+                    <h2 class="title">一个默默无闻的地球online玩家</h2>
+                    <p class="intro">用技术创造奇迹，就像哆啦A梦的百宝袋一样无限可能</p>
+                    <div class="hero-buttons">
+                        <a href="javascript:void(0)" onclick="showSection('projects')" class="cta-button">查看我的项目</a>
+                        <a href="javascript:void(0)" onclick="showSection('contact')" class="outline-button">联系我</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section id="stats" class="stats-section" style="display: none;">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="project-count">0</div>
+                        <div class="stat-label">项目</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="github-followers">0</div>
+                        <div class="stat-label">GitHub关注者</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="steam-games">0</div>
+                        <div class="stat-label">Steam游戏</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GitHub Projects Section -->
+        <section id="projects" class="projects-section" style="display: none;">
+            <div class="container">
+                <h2>我的GitHub项目</h2>
+                <div class="projects-grid" id="github-projects-grid">
+                    <!-- GitHub项目将通过JavaScript动态加载 -->
+                    <div class="loading">正在加载项目...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Steam Section -->
+        <section id="steam" class="steam-section" style="display: none;">
+            <div class="container">
+                <h2>我的Steam信息</h2>
+                <div class="steam-content">
+                    <div class="steam-info" id="steam-info">
+                        <div class="loading">正在加载Steam信息...</div>
+                    </div>
+                    <div class="steam-games" id="steam-games-list">
+                        <h3>最近玩过的游戏</h3>
+                        <div class="games-grid" id="recent-games-grid">
+                            <div class="loading">正在加载游戏列表...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section" style="display: none;">
+            <div class="container">
+                <h2>关于我</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>你好！我是一名充满热情的Web开发者，专注于创建美观且用户友好的网站和应用。就像哆啦A梦总能从口袋里拿出神奇的道具，我也能运用各种技术工具来解决问题，创造有趣的用户体验。</p>
+                        <p>你可以在我的GitHub主页上查看我的项目和代码：</p>
+                        <p><a href="https://github.com/OwnApple" target="_blank" rel="noopener noreferrer">https://github.com/OwnApple</a></p>
+                        <p>我擅长的技术栈包括：</p>
+                        <ul class="skills-list">
+                            <li>前端开发 (HTML5, CSS3, JavaScript)</li>
+                            <li>现代框架 (React, Vue.js)</li>
+                            <li>响应式设计</li>
+                            <li>用户体验设计</li>
+                        </ul>
+                    </div>
+                    <div class="profile-image">
+                        <img src="images/profile-placeholder.jpg" alt="个人照片" class="avatar">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section" style="display: none;">
+            <div class="container">
+                <h2>联系我</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <p>想和我交流技术或者一起玩游戏吗？欢迎通过以下方式联系我：</p>
+                        <div class="social-links-large">
+                            <a href="https://github.com/OwnApple" target="_blank" rel="noopener noreferrer" class="social-card">
+                                <i class="fab fa-github"></i>
+                                <span>GitHub</span>
+                            </a>
+                            <a href="https://steamcommunity.com/profiles/76561199123840298" target="_blank" rel="noopener noreferrer" class="social-card steam">
+                                <i class="fab fa-steam"></i>
+                                <span>Steam</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-form">
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <input type="text" id="name" name="name" placeholder="你的名字" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="email" name="email" placeholder="你的邮箱" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="message" name="message" placeholder="你的消息" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="submit-button">发送消息</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-info">
+                        <h3>OwnApple</h3>
+                        <p>一个默默无闻的地球online玩家</p>
+                    </div>
+                    <div class="footer-links">
+                        <a href="javascript:void(0)" onclick="showSection('home')">首页</a>
+                        <a href="javascript:void(0)" onclick="showSection('projects')">项目</a>
+                        <a href="javascript:void(0)" onclick="showSection('about')">关于</a>
+                        <a href="javascript:void(0)" onclick="showSection('contact')">联系</a>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://github.com/OwnApple" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://steamcommunity.com/profiles/76561199123840298" target="_blank" rel="noopener noreferrer" class="steam">
+                            <i class="fab fa-steam"></i>
+                        </a>
+                    </div>
+                </div>
+                <p class="copyright">&copy; 2024 OwnApple. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 哆啦A梦头像 -->
+    <div id="doraemon-avatar"></div>
+
+    <!-- 哆啦A梦对话框 -->
+    <div id="doraemon-dialog">
+        <div class="dialog-content">嘿，我是哆啦A梦！我可以带你去任何地方哦！</div>
+        <div class="dialog-arrow"></div>
+    </div>
+
+    <!-- 菜单气泡选项 -->
+    <div id="menu-bubbles" class="menu-bubbles">
+        <div class="bubble-option" data-target="home" data-label="主页">
+            <i class="fas fa-home"></i>
+        </div>
+        <div class="bubble-option" data-target="projects" data-label="项目">
+            <i class="fas fa-code"></i>
+        </div>
+        <div class="bubble-option" data-target="steam" data-label="Steam">
+            <i class="fab fa-steam"></i>
+        </div>
+        <div class="bubble-option" data-target="about" data-label="关于">
+            <i class="fas fa-user"></i>
+        </div>
+        <div class="bubble-option" data-target="contact" data-label="联系">
+            <i class="fas fa-envelope"></i>
+        </div>
+    </div>
+
+    <!-- 哆啦A梦工具菜单 -->
+    <div id="tool-menu" class="tool-menu">
+        <div class="menu-content">
+            <h3>请选择一个道具</h3>
+            <button id="open-steam" class="tool-button" data-tooltip="功能：查看我的Steam游戏状态">
+                <i class="fas fa-tv"></i> 电视君
+            </button>
+            <button id="open-github" class="tool-button" data-tooltip="功能：展示我的GitHub贡献">
+                <i class="fas fa-chart-line"></i> 时间望远镜
+            </button>
+            <button id="open-calculator" class="tool-button" data-tooltip="功能：一个简易的计算器">
+                <i class="fas fa-calculator"></i> 算术糖果
+            </button>
+        </div>
+    </div>
+
+    <!-- Steam工具容器 -->
+    <div id="tool-steam" class="tool-container">
+        <div class="tool-content">
+            <div class="tool-header">
+                <h3><i class="fas fa-tv"></i> 电视君 - Steam状态查看器</h3>
+                <button id="close-steam" class="close-btn">
+                    <i class="fas fa-arrow-left"></i> 返回
+                </button>
+            </div>
+            <div class="steam-display" id="steam-display">
+                <!-- 初始加载状态 -->
+                <div class="loading-state" id="steam-loading">
+                    <div class="loading-spinner">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="loading-text">正在从四次元口袋掏东西...</div>
+                </div>
+                
+                <!-- 成功状态 -->
+                <div class="success-state" id="steam-success" style="display: none;">
+                    <!-- Steam数据将在这里动态插入 -->
+                </div>
+                
+                <!-- 错误状态 -->
+                <div class="error-state" id="steam-error" style="display: none;">
+                    <div class="error-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="error-message">
+                        哎呀，四次元口袋好像堵住了！请稍后再试。
+                    </div>
+                    <div class="error-suggestions">
+                        <p>可能的原因：</p>
+                        <ul>
+                            <li>网络连接问题</li>
+                            <li>Steam API暂时不可用</li>
+                            <li>服务器正在维护</li>
+                        </ul>
+                    </div>
+                    <button class="retry-btn" onclick="loadSteamData()">
+                        <i class="fas fa-redo"></i> 重试
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GitHub工具容器 -->
+    <div id="tool-github" class="tool-container">
+        <div class="tool-content">
+            <div class="tool-header">
+                <h3><i class="fas fa-chart-line"></i> 时间望远镜 - GitHub贡献分析</h3>
+                <button id="close-github" class="close-btn">
+                    <i class="fas fa-arrow-left"></i> 返回
+                </button>
+            </div>
+            <div class="github-display" id="github-display">
+                <div class="loading">正在加载GitHub信息...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 计算器工具容器 -->
+    <div id="tool-calculator" class="tool-container">
+        <div class="tool-content">
+            <div class="tool-header">
+                <h3><i class="fas fa-calculator"></i> 算术糖果 - 迷你计算器</h3>
+                <button id="close-calculator" class="close-btn">
+                    <i class="fas fa-arrow-left"></i> 返回
+                </button>
+            </div>
+            <div class="calculator">
+                <input type="text" id="calc-display" readonly>
+                <div class="calc-buttons">
+                    <button value="C">C</button>
+                    <button value="%">%</button>
+                    <button value="/">/</button>
+                    <button value="*">*</button>
+                    <button value="7">7</button>
+                    <button value="8">8</button>
+                    <button value="9">9</button>
+                    <button value="-">-</button>
+                    <button value="4">4</button>
+                    <button value="5">5</button>
+                    <button value="6">6</button>
+                    <button value="+">+</button>
+                    <button value="1">1</button>
+                    <button value="2">2</button>
+                    <button value="3">3</button>
+                    <button value="=">=</button>
+                    <button value="0">0</button>
+                    <button value=".">.</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

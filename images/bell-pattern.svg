@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="bell-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+      <!-- 铃铛1 -->
+      <g transform="translate(20,20) scale(0.8)">
+        <!-- 铃铛顶部环 -->
+        <circle cx="30" cy="15" r="5" fill="#FFD700" stroke="#E5C100" stroke-width="2"/>
+        <!-- 铃铛主体 -->
+        <path d="M15,20 
+                 Q15,15 30,15 
+                 Q45,15 45,20
+                 Q45,40 30,45
+                 Q15,40 15,20" 
+              fill="#FFD700" stroke="#E5C100" stroke-width="2"/>
+        <!-- 铃铛底部 -->
+        <circle cx="30" cy="42" r="3" fill="#FF4949"/>
+      </g>
+
+      <!-- 铃铛2（右上角） -->
+      <g transform="translate(70,20) scale(0.8)">
+        <circle cx="30" cy="15" r="5" fill="#FFD700" stroke="#E5C100" stroke-width="2"/>
+        <path d="M15,20 
+                 Q15,15 30,15 
+                 Q45,15 45,20
+                 Q45,40 30,45
+                 Q15,40 15,20" 
+              fill="#FFD700" stroke="#E5C100" stroke-width="2"/>
+        <circle cx="30" cy="42" r="3" fill="#FF4949"/>
+      </g>
+
+      <!-- 铃铛3（左下角） -->
+      <g transform="translate(20,70) scale(0.8)">
+        <circle cx="30" cy="15" r="5" fill="#FFD700" stroke="#E5C100" stroke-width="2"/>
+        <path d="M15,20 
+                 Q15,15 30,15 
+                 Q45,15 45,20
+                 Q45,40 30,45
+                 Q15,40 15,20" 
+              fill="#FFD700" stroke="#E5C100" stroke-width="2"/>
+        <circle cx="30" cy="42" r="3" fill="#FF4949"/>
+      </g>
+
+      <!-- 铃铛4（右下角） -->
+      <g transform="translate(70,70) scale(0.8)">
+        <circle cx="30" cy="15" r="5" fill="#FFD700" stroke="#E5C100" stroke-width="2"/>
+        <path d="M15,20 
+                 Q15,15 30,15 
+                 Q45,15 45,20
+                 Q45,40 30,45
+                 Q15,40 15,20" 
+              fill="#FFD700" stroke="#E5C100" stroke-width="2"/>
+        <circle cx="30" cy="42" r="3" fill="#FF4949"/>
+      </g>
+    </pattern>
+  </defs>
+  
+  <!-- 使用图案填充整个SVG -->
+  <rect width="200" height="200" fill="url(#bell-pattern)"/>
+</svg>
