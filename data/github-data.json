@@ -1,0 +1,82 @@
+{
+  "userInfo": {
+    "login": "OwnApple",
+    "name": "OwnApple",
+    "followers": 42,
+    "public_repos": 18,
+    "public_gists": 5,
+    "avatar_url": "https://avatars.githubusercontent.com/u/12345678?v=4",
+    "html_url": "https://github.com/OwnApple",
+    "blog": "",
+    "location": "China",
+    "bio": "一个默默无闻的地球online玩家 | Web Developer"
+  },
+  "repositories": [
+    {
+      "name": "personal-portfolio",
+      "description": "我的个人作品集网站，融合哆啦A梦元素的个人网站",
+      "language": "HTML",
+      "stargazers_count": 5,
+      "forks_count": 2,
+      "html_url": "https://github.com/OwnApple/personal-portfolio",
+      "homepage": "https://ownapple.github.io",
+      "updated_at": "2024-12-20T10:30:00Z"
+    },
+    {
+      "name": "doraemon-tools",
+      "description": "哆啦A梦主题的Web工具集合，包含计算器、Steam信息查看器等",
+      "language": "JavaScript",
+      "stargazers_count": 3,
+      "forks_count": 1,
+      "html_url": "https://github.com/OwnApple/doraemon-tools",
+      "homepage": "",
+      "updated_at": "2024-12-18T15:45:00Z"
+    },
+    {
+      "name": "steam-api-proxy",
+      "description": "Steam API代理服务器，解决跨域问题",
+      "language": "Node.js",
+      "stargazers_count": 2,
+      "forks_count": 0,
+      "html_url": "https://github.com/OwnApple/steam-api-proxy",
+      "homepage": "",
+      "updated_at": "2024-12-15T09:20:00Z"
+    },
+    {
+      "name": "css-animation-library",
+      "description": "轻量级CSS动画库，提供多种预设动画效果",
+      "language": "CSS",
+      "stargazers_count": 8,
+      "forks_count": 3,
+      "html_url": "https://github.com/OwnApple/css-animation-library",
+      "homepage": "https://ownapple.github.io/css-animation-library",
+      "updated_at": "2024-12-12T14:10:00Z"
+    },
+    {
+      "name": "javascript-utils",
+      "description": "实用的JavaScript工具函数库",
+      "language": "JavaScript",
+      "stargazers_count": 4,
+      "forks_count": 1,
+      "html_url": "https://github.com/OwnApple/javascript-utils",
+      "homepage": "",
+      "updated_at": "2024-12-10T11:25:00Z"
+    },
+    {
+      "name": "react-components",
+      "description": "可复用的React组件库",
+      "language": "JavaScript",
+      "stargazers_count": 6,
+      "forks_count": 2,
+      "html_url": "https://github.com/OwnApple/react-components",
+      "homepage": "https://ownapple.github.io/react-components",
+      "updated_at": "2024-12-08T16:40:00Z"
+    }
+  ],
+  "contributions": {
+    "totalContributions": 1247,
+    "currentStreak": 15,
+    "longestStreak": 45,
+    "thisYearContributions": 342
+  }
+}
