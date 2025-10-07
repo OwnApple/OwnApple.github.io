@@ -720,6 +720,110 @@ body {
     gap: 4rem;
 }
 
+/* Contact form specifics */
+.contact-form .form-group {
+    position: relative;
+}
+
+.field-error {
+    color: #ff4949;
+    font-size: 0.85rem;
+    margin-top: 6px;
+    min-height: 18px;
+}
+
+.contact-feedback {
+    margin-top: 12px;
+    font-weight: 600;
+    color: var(--doraemon-blue);
+}
+.contact-feedback.error {
+    color: #ff4949;
+}
+
+.submit-button#contact-submit {
+    background: #1E90FF; /* theme color */
+    color: white;
+    border-radius: 8px;
+    padding: 12px 18px;
+}
+
+/* Social cards in contact */
+.contact-socials {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.contact-socials .social-card {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 1rem;
+    background: var(--bg-white);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 600;
+    transition: all var(--transition-speed) ease;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.contact-socials .social-card i {
+    font-size: 1.4rem;
+    color: #1E90FF;
+}
+
+.contact-socials .social-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+/* Custom tooltip for social cards */
+#custom-tooltip {
+    position: fixed;
+    background: rgba(0,0,0,0.85);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    z-index: 1200;
+    display: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#custom-tooltip.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Ensure social-card is keyboard focusable */
+.social-card {
+    outline: none;
+}
+.social-card:focus {
+    box-shadow: 0 0 0 3px rgba(30,144,255,0.15);
+}
+
+/* Map container */
+.contact-map {
+    width: 100%;
+    height: 320px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    margin-top: 1rem;
+}
+
+.map-error {
+    padding: 20px;
+    color: var(--text-dark);
+    background: var(--bg-white);
+    border-radius: 10px;
+}
+
 .contact-info p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
@@ -1909,4 +2013,669 @@ body {
 #close-calculator {
     background: var(--gradient-primary);
     color: white;
+}
+
+/* 增强的关于部分样式 */
+
+/* 个人简介区域 */
+.personal-intro {
+    margin-bottom: 4rem;
+}
+
+.intro-card {
+    background: linear-gradient(135deg, var(--doraemon-blue), #007acc);
+    border-radius: 20px;
+    padding: 2.5rem;
+    color: white;
+    box-shadow: var(--box-shadow-hover);
+    backdrop-filter: blur(10px);
+    transform: translateY(0);
+    transition: all 0.3s ease;
+}
+
+.intro-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(30, 144, 255, 0.3);
+}
+
+.intro-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.intro-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.intro-avatar:hover {
+    transform: scale(1.05);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.intro-text h3 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.intro-text p {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+.bio-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.8;
+    margin-bottom: 0;
+}
+
+.intro-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.intro-stats .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.intro-stats .stat-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.intro-stats .stat-item i {
+    font-size: 1.2rem;
+    color: var(--doraemon-yellow);
+}
+
+/* 技能展示区域 */
+.skills-section {
+    margin-bottom: 4rem;
+}
+
+.skills-section h3 {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--doraemon-blue);
+    margin-bottom: 3rem;
+    font-weight: 700;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.skill-item {
+    background: var(--bg-white);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-item:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.skill-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+}
+
+.skill-circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.5rem;
+}
+
+.skill-circle svg {
+    width: 120px;
+    height: 120px;
+    transform: rotate(-90deg);
+}
+
+.skill-circle circle {
+    fill: none;
+    stroke-width: 8;
+    stroke-linecap: round;
+}
+
+.skill-circle .bg-circle {
+    stroke: #f0f0f0;
+}
+
+.skill-circle .progress-circle {
+    stroke-dasharray: 339.292;
+    stroke-dashoffset: 339.292;
+    transition: stroke-dashoffset 2s ease;
+}
+
+.skill-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: var(--text-dark);
+}
+
+.skill-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.skill-level {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--doraemon-blue);
+}
+
+/* 专业经历时间线 */
+.experience-section {
+    margin-bottom: 4rem;
+}
+
+.experience-section h3 {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--doraemon-blue);
+    margin-bottom: 3rem;
+    font-weight: 700;
+}
+
+.timeline {
+    position: relative;
+    padding: 2rem 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--gradient-primary);
+    transform: translateX(-50%);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.timeline-item:nth-child(1) { animation-delay: 0.1s; }
+.timeline-item:nth-child(2) { animation-delay: 0.3s; }
+.timeline-item:nth-child(3) { animation-delay: 0.5s; }
+
+.timeline-item:nth-child(even) {
+    padding-right: 50%;
+    text-align: right;
+}
+
+.timeline-item:nth-child(odd) {
+    padding-left: 50%;
+    text-align: left;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.timeline-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: var(--box-shadow);
+    transition: all 0.3s ease;
+}
+
+.timeline-marker:hover .timeline-icon {
+    transform: scale(1.1);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.timeline-content {
+    background: var(--bg-white);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: var(--box-shadow);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.timeline-date {
+    color: var(--doraemon-blue);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.timeline-content h4 {
+    color: var(--text-dark);
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.timeline-content h5 {
+    color: var(--doraemon-blue);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.timeline-content p {
+    color: var(--text-light);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* 兴趣爱好区域 */
+.interests-section {
+    margin-bottom: 4rem;
+}
+
+.interests-section h3 {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--doraemon-blue);
+    margin-bottom: 3rem;
+    font-weight: 700;
+}
+
+.interests-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.interest-tag {
+    background: var(--gradient-primary);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: var(--box-shadow);
+}
+
+.interest-tag:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: var(--box-shadow-hover);
+    background: var(--doraemon-red);
+}
+
+/* 成就证书展示区域 */
+.achievements-section {
+    margin-bottom: 2rem;
+}
+
+.achievements-section h3 {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--doraemon-blue);
+    margin-bottom: 3rem;
+    font-weight: 700;
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.achievement-card {
+    background: var(--bg-white);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.achievement-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.achievement-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.achievement-card:hover .achievement-image {
+    transform: scale(1.05);
+}
+
+.achievement-info {
+    padding: 1.5rem;
+}
+
+.achievement-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.achievement-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.achievement-issuer {
+    color: var(--doraemon-blue);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.achievement-date {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.achievement-category {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--doraemon-blue);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* 灯箱模态框样式 */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.lightbox.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+
+.lightbox.show .lightbox-content {
+    transform: scale(1);
+}
+
+.close-lightbox {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 2001;
+}
+
+.close-lightbox:hover {
+    background: rgba(255, 0, 0, 0.8);
+    transform: scale(1.1);
+}
+
+.lightbox-image {
+    width: 100%;
+    height: auto;
+    max-height: 70vh;
+    object-fit: contain;
+}
+
+.lightbox-info {
+    padding: 2rem;
+    background: white;
+}
+
+.lightbox-info h3 {
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.lightbox-info p {
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.lightbox-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.lightbox-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.lightbox-meta i {
+    color: var(--doraemon-blue);
+}
+
+/* 响应式设计 - 增强的关于部分 */
+@media (max-width: 992px) {
+    .intro-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .timeline::before {
+        left: 30px;
+    }
+    
+    .timeline-item {
+        padding-left: 60px !important;
+        padding-right: 0 !important;
+        text-align: left !important;
+    }
+    
+    .timeline-marker {
+        left: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .intro-card {
+        padding: 2rem;
+    }
+    
+    .intro-avatar {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .intro-text h3 {
+        font-size: 1.5rem;
+    }
+    
+    .intro-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .timeline::before {
+        left: 20px;
+    }
+    
+    .timeline-item {
+        padding-left: 50px !important;
+        padding-right: 0 !important;
+        text-align: left !important;
+        margin-bottom: 2rem;
+    }
+    
+    .timeline-marker {
+        left: 20px;
+    }
+    
+    .timeline-content {
+        padding: 1.5rem;
+    }
+    
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .intro-card {
+        padding: 1.5rem;
+    }
+    
+    .intro-avatar {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .intro-text h3 {
+        font-size: 1.3rem;
+    }
+    
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .skill-item {
+        padding: 1.5rem;
+    }
+    
+    .timeline::before {
+        left: 15px;
+    }
+    
+    .timeline-item {
+        padding-left: 40px !important;
+        padding-right: 0 !important;
+        text-align: left !important;
+        margin-bottom: 1.5rem;
+    }
+    
+    .timeline-marker {
+        left: 15px;
+    }
+    
+    .timeline-content {
+        padding: 1rem;
+    }
+    
+    .timeline-content h4 {
+        font-size: 1.1rem;
+    }
+    
+    .timeline-content h5 {
+        font-size: 1rem;
+    }
+    
+    .interests-tags {
+        gap: 0.5rem;
+    }
+    
+    .interest-tag {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
 }

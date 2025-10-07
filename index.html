@@ -6,6 +6,8 @@
     <title>OwnApple 的作品集 - 融合哆啦A梦元素的个人网站</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Leaflet for contact map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-sA+e2Gk0pQb1fY9gP+gq8s8ZlYkQ0sQYk0/6Y5q5t3s=" crossorigin="" />
 </head>
 <body>
     <!-- 主要内容区域 -->
@@ -78,23 +80,115 @@
         <section id="about" class="about-section" style="display: none;">
             <div class="container">
                 <h2>关于我</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p>你好！我是一名充满热情的Web开发者，专注于创建美观且用户友好的网站和应用。就像哆啦A梦总能从口袋里拿出神奇的道具，我也能运用各种技术工具来解决问题，创造有趣的用户体验。</p>
-                        <p>你可以在我的GitHub主页上查看我的项目和代码：</p>
-                        <p><a href="https://github.com/OwnApple" target="_blank" rel="noopener noreferrer">https://github.com/OwnApple</a></p>
-                        <p>我擅长的技术栈包括：</p>
-                        <ul class="skills-list">
-                            <li>前端开发 (HTML5, CSS3, JavaScript)</li>
-                            <li>现代框架 (React, Vue.js)</li>
-                            <li>响应式设计</li>
-                            <li>用户体验设计</li>
-                        </ul>
-                    </div>
-                    <div class="profile-image">
-                        <img src="images/profile-placeholder.jpg" alt="个人照片" class="avatar">
+                
+                <!-- 个人简介区域 -->
+                <div class="personal-intro">
+                    <div class="intro-card">
+                        <div class="intro-header">
+                            <img src="images/profile-placeholder.jpg" alt="个人照片" class="intro-avatar">
+                            <div class="intro-text">
+                                <h3 id="personal-name">OwnApple</h3>
+                                <p id="personal-title">Web Developer</p>
+                                <p id="personal-bio" class="bio-text"></p>
+                            </div>
+                        </div>
+                        <div class="intro-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span id="personal-location">China</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-envelope"></i>
+                                <span id="personal-email">ownapple@example.com</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-briefcase"></i>
+                                <span id="personal-experience">3年经验</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-code"></i>
+                                <span id="personal-projects">50+项目</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- 技能展示区域 -->
+                <div class="skills-section">
+                    <h3>技能专长</h3>
+                    <div class="skills-grid" id="skills-grid">
+                        <!-- 技能进度条将通过JavaScript动态加载 -->
+                    </div>
+                </div>
+
+                <!-- 专业经历时间线 -->
+                <div class="experience-section">
+                    <h3>专业经历</h3>
+                    <div class="timeline" id="experience-timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker">
+                                <div class="timeline-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">2022 - 至今</div>
+                                <h4>高级前端开发工程师</h4>
+                                <h5>科技创新公司</h5>
+                                <p>负责企业级前端应用开发，使用React和Vue.js构建用户界面，优化用户体验。</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker">
+                                <div class="timeline-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">2021 - 2022</div>
+                                <h4>前端开发工程师</h4>
+                                <h5>互联网科技公司</h5>
+                                <p>参与多个Web项目开发，专注于响应式设计和前端性能优化。</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker">
+                                <div class="timeline-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">2018 - 2021</div>
+                                <h4>计算机科学与技术</h4>
+                                <h5>知名大学</h5>
+                                <p>主修计算机科学与技术专业，获得学士学位。在校期间获得多项技术竞赛奖项。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 兴趣爱好 -->
+                <div class="interests-section">
+                    <h3>兴趣爱好</h3>
+                    <div class="interests-tags" id="interests-tags">
+                                <div class="field-error" id="error-name"></div>
+                        <!-- 兴趣标签将通过JavaScript动态加载 -->
+                    </div>
+                </div>
+                                <div class="field-error" id="error-email"></div>
+
+                <!-- 成就证书展示 -->
+                <div class="achievements-section">
+                                <div class="field-error" id="error-message"></div>
+                    <h3>成就证书</h3>
+                            <button type="submit" class="submit-button" id="contact-submit">
+                                \u53d1\u9001\u6d88\u606f</button>
+                            <div id="contact-feedback" class="contact-feedback" role="status" aria-live="polite"></div>
+                    </div>
+                </div>
+
+                
+                <!-- 社交链接和地图（已移入联系区域） -->
             </div>
         </section>
 
@@ -103,32 +197,43 @@
             <div class="container">
                 <h2>联系我</h2>
                 <div class="contact-content">
-                    <div class="contact-info">
-                        <p>想和我交流技术或者一起玩游戏吗？欢迎通过以下方式联系我：</p>
-                        <div class="social-links-large">
-                            <a href="https://github.com/OwnApple" target="_blank" rel="noopener noreferrer" class="social-card">
-                                <i class="fab fa-github"></i>
-                                <span>GitHub</span>
-                            </a>
-                            <a href="https://steamcommunity.com/profiles/76561199123840298" target="_blank" rel="noopener noreferrer" class="social-card steam">
-                                <i class="fab fa-steam"></i>
-                                <span>Steam</span>
-                            </a>
-                        </div>
-                    </div>
                     <div class="contact-form">
                         <form id="contact-form">
                             <div class="form-group">
                                 <input type="text" id="name" name="name" placeholder="你的名字" required>
+                                <div class="field-error" id="error-name"></div>
                             </div>
                             <div class="form-group">
                                 <input type="email" id="email" name="email" placeholder="你的邮箱" required>
+                                <div class="field-error" id="error-email"></div>
                             </div>
                             <div class="form-group">
                                 <textarea id="message" name="message" placeholder="你的消息" rows="5" required></textarea>
+                                <div class="field-error" id="error-message"></div>
                             </div>
-                            <button type="submit" class="submit-button">发送消息</button>
+                            <button type="submit" class="submit-button" id="contact-submit">发送消息</button>
+                            <div id="contact-feedback" class="contact-feedback" role="status" aria-live="polite"></div>
                         </form>
+                    </div>
+
+                    <div class="contact-info">
+                        <p>想和我交流技术或者一起玩游戏吗？欢迎通过以下方式联系我：</p>
+                        <div class="social-links-large contact-socials">
+                            <a href="https://github.com/OwnApple" target="_blank" rel="noopener noreferrer" class="social-card" data-tooltip="GitHub">
+                                <i class="fab fa-github"></i>
+                                <span>GitHub</span>
+                            </a>
+                            <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" class="social-card" data-tooltip="LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                                <span>LinkedIn</span>
+                            </a>
+                            <a href="#" class="social-card" data-tooltip="WeChat">
+                                <i class="fab fa-weixin"></i>
+                                <span>WeChat</span>
+                            </a>
+                        </div>
+
+                        <div id="contact-map" class="contact-map"></div>
                     </div>
                 </div>
             </div>
@@ -303,6 +408,23 @@
         </div>
     </div>
 
+    <!-- 灯箱模态框 -->
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <span class="close-lightbox">&times;</span>
+            <img id="lightbox-image" src="" alt="">
+            <div class="lightbox-info">
+                <h3 id="lightbox-title"></h3>
+                <p id="lightbox-description"></p>
+                <div class="lightbox-meta">
+                    <span><i class="fas fa-award"></i> <span id="lightbox-issuer"></span></span>
+                    <span><i class="fas fa-calendar"></i> <span id="lightbox-date"></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-o9N1j8c2Qf3b9uW+gqgXHkqQbYp3q9k+X3g9m2u6Y5s=" crossorigin=""></script>
     <script src="main.js"></script>
 </body>
 </html>

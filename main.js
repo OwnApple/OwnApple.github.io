@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始化滚动功能
     initScrolling();
     
+    // 初始化灯箱功能
+    initLightbox();
+    
     // 获取所有静态数据
     loadAllStaticData();
     
@@ -399,15 +402,141 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = document.getElementById('email').value;
             const message = document.getElementById('message').value;
             
-            // 简单验证
-            if (name && email && message) {
-                // 这里可以添加实际的表单提交逻辑
-                alert(`谢谢你的消息，${name}！我会尽快回复你。`);
-                contactForm.reset();
-            } else {
-                alert('请填写所有必填字段。');
+            // 简单验证并显示错误
+            let valid = true;
+            const errorName = document.getElementById('error-name');
+            const errorEmail = document.getElementById('error-email');
+            const errorMessage = document.getElementById('error-message');
+            errorName.textContent = '';
+            errorEmail.textContent = '';
+            errorMessage.textContent = '';
+
+            if (!name.trim()) {
+                errorName.textContent = '请输入姓名';
+                valid = false;
             }
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                errorEmail.textContent = '请输入有效的邮箱地址';
+                valid = false;
+            }
+            if (!message.trim() || message.trim().length < 5) {
+                errorMessage.textContent = '留言内容不少于 5 个字符';
+                valid = false;
+            }
+
+            const feedback = document.getElementById('contact-feedback');
+
+            if (!valid) {
+                feedback.textContent = '请修正表单错误后再提交。';
+                feedback.classList.add('error');
+                return;
+            }
+
+            // 模拟异步提交（因为没有后端），显示友好反馈
+            feedback.textContent = '正在发送...';
+            feedback.classList.remove('error');
+
+            setTimeout(() => {
+                feedback.textContent = `谢谢你的消息，${name}！我会尽快回复你。`;
+                contactForm.reset();
+            }, 800);
         });
+    }
+});
+
+// 社交链接 tooltip 与地图初始化
+document.addEventListener('DOMContentLoaded', () => {
+    // 社交自定义 tooltip（使用 data-tooltip 属性，替换 title）
+    (function setupSocialTooltips(){
+        // 创建 tooltip 元素（单例）
+        let tooltipEl = document.getElementById('custom-tooltip');
+        if (!tooltipEl) {
+            tooltipEl = document.createElement('div');
+            tooltipEl.id = 'custom-tooltip';
+            tooltipEl.setAttribute('role', 'tooltip');
+            document.body.appendChild(tooltipEl);
+        }
+
+        const showTooltip = (el, text, rect) => {
+            tooltipEl.textContent = text;
+            tooltipEl.style.display = 'block';
+            // 基于元素位置设置 tooltip（尽量在上方）
+            const top = rect.top - tooltipEl.offsetHeight - 8;
+            const left = rect.left + (rect.width / 2) - (tooltipEl.offsetWidth / 2);
+            tooltipEl.style.top = (top > 8 ? top : rect.bottom + 8) + 'px';
+            tooltipEl.style.left = Math.max(8, left) + 'px';
+            tooltipEl.classList.add('visible');
+        };
+
+        const hideTooltip = () => {
+            tooltipEl.classList.remove('visible');
+            // 保持 display none 一会儿以允许动画
+            setTimeout(() => tooltipEl.style.display = 'none', 200);
+        };
+
+        const socialCards = document.querySelectorAll('.social-card');
+        socialCards.forEach(card => {
+            const tip = card.getAttribute('data-tooltip') || card.querySelector('span')?.textContent || '';
+            // hover
+            card.addEventListener('mouseenter', (e) => {
+                const rect = card.getBoundingClientRect();
+                showTooltip(card, tip, rect);
+            });
+            card.addEventListener('mouseleave', hideTooltip);
+            // keyboard focus
+            card.addEventListener('focus', (e) => {
+                const rect = card.getBoundingClientRect();
+                showTooltip(card, tip, rect);
+            });
+            card.addEventListener('blur', hideTooltip);
+            // touch / click: toggle tooltip for accessibility on small devices
+            card.addEventListener('click', (e) => {
+                // prevent default for placeholders
+                const rect = card.getBoundingClientRect();
+                if (tooltipEl.style.display === 'block') {
+                    hideTooltip();
+                } else {
+                    showTooltip(card, tip, rect);
+                }
+            });
+        });
+    })();
+
+    // 初始化 Leaflet 地图（如果容器存在）
+    const mapEl = document.getElementById('contact-map');
+    if (mapEl && window.L) {
+        // 先加载 contact-data.json
+        fetch('./data/contact-data.json')
+            .then(r => r.json())
+            .then(data => {
+                const locations = data.locations || [];
+                const defaultCenter = locations.length ? [locations[0].lat, locations[0].lng] : [39.9042, 116.4074];
+
+                const map = L.map('contact-map', { scrollWheelZoom: false }).setView(defaultCenter, 12);
+
+                // 使用 OpenStreetMap 瓦片
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors'
+                }).addTo(map);
+
+                // 添加标记
+                locations.forEach(loc => {
+                    const marker = L.marker([loc.lat, loc.lng]).addTo(map);
+                    const popupHtml = `<strong>${loc.name}</strong><br>${loc.description || ''}`;
+                    marker.bindPopup(popupHtml);
+                });
+
+                // 若只有一个标记，打开弹窗
+                if (locations.length === 1) {
+                    const single = locations[0];
+                    L.marker([single.lat, single.lng]).openPopup();
+                }
+            })
+            .catch(err => {
+                console.error('加载 contact-data.json 失败:', err);
+                mapEl.innerHTML = '<div class="map-error">无法加载地图数据</div>';
+            });
     }
 });
 
@@ -435,6 +564,191 @@ function loadAllStaticData() {
     loadStaticGitHubProjects();
     loadStaticGitHubUserInfo();
     loadStaticSteamData();
+    loadAboutData();
+    loadAchievementsData();
+}
+
+// 加载关于部分的数据
+async function loadAboutData() {
+    try {
+        const response = await fetch('./data/about-data.json');
+        if (!response.ok) {
+            throw new Error('无法加载关于数据');
+        }
+        const data = await response.json();
+        
+        // 更新个人简介
+        updatePersonalInfo(data.personalInfo);
+        
+        // 更新技能展示
+        updateSkillsDisplay(data.skills);
+        
+        // 更新兴趣爱好
+        updateInterestsDisplay(data.interests);
+        
+    } catch (error) {
+        console.error('加载关于数据时出错:', error);
+    }
+}
+
+// 更新个人简介信息
+function updatePersonalInfo(info) {
+    document.getElementById('personal-name').textContent = info.name;
+    document.getElementById('personal-title').textContent = info.title;
+    document.getElementById('personal-bio').textContent = info.bio;
+    document.getElementById('personal-location').textContent = info.location;
+    document.getElementById('personal-email').textContent = info.email;
+    document.getElementById('personal-experience').textContent = info.experience + '经验';
+    document.getElementById('personal-projects').textContent = info.projects + '项目';
+}
+
+// 更新技能展示
+function updateSkillsDisplay(skills) {
+    const skillsGrid = document.getElementById('skills-grid');
+    skillsGrid.innerHTML = '';
+    
+    skills.forEach((skill, index) => {
+        const skillItem = document.createElement('div');
+        skillItem.className = 'skill-item';
+        
+        // 计算进度条偏移
+        const circumference = 2 * Math.PI * 54; // 半径54的圆周长
+        const offset = circumference - (skill.level / 100) * circumference;
+        
+        skillItem.innerHTML = `
+            <div class="skill-circle">
+                <svg viewBox="0 0 120 120">
+                    <circle class="bg-circle" cx="60" cy="60" r="54"></circle>
+                    <circle class="progress-circle" cx="60" cy="60" r="54" 
+                            style="stroke: ${skill.color}; stroke-dashoffset: ${offset};"></circle>
+                </svg>
+                <i class="${skill.icon} skill-icon" style="color: ${skill.color};"></i>
+            </div>
+            <div class="skill-name">${skill.name}</div>
+            <div class="skill-level">${skill.level}%</div>
+        `;
+        
+        skillsGrid.appendChild(skillItem);
+        
+        // 动画效果：当元素进入视口时触发进度条动画
+        setTimeout(() => {
+            const progressCircle = skillItem.querySelector('.progress-circle');
+            if (progressCircle) {
+                progressCircle.style.strokeDashoffset = offset;
+            }
+        }, 100 + index * 200);
+    });
+}
+
+// 更新兴趣爱好显示
+function updateInterestsDisplay(interests) {
+    const interestsTags = document.getElementById('interests-tags');
+    interestsTags.innerHTML = '';
+    
+    interests.forEach(interest => {
+        const interestTag = document.createElement('span');
+        interestTag.className = 'interest-tag';
+        interestTag.textContent = interest;
+        interestsTags.appendChild(interestTag);
+    });
+}
+
+// 加载成就证书数据
+async function loadAchievementsData() {
+    try {
+        const response = await fetch('./data/achievements-data.json');
+        if (!response.ok) {
+            throw new Error('无法加载成就数据');
+        }
+        const data = await response.json();
+        
+        updateAchievementsDisplay(data.achievements);
+        
+    } catch (error) {
+        console.error('加载成就数据时出错:', error);
+    }
+}
+
+// 更新成就证书显示
+function updateAchievementsDisplay(achievements) {
+    const achievementsGrid = document.getElementById('achievements-grid');
+    achievementsGrid.innerHTML = '';
+    
+    achievements.forEach(achievement => {
+        const achievementCard = document.createElement('div');
+        achievementCard.className = 'achievement-card';
+        
+        achievementCard.innerHTML = `
+            <div class="achievement-category">${achievement.category}</div>
+            <img src="${achievement.image}" alt="${achievement.title}" class="achievement-image">
+            <div class="achievement-info">
+                <h3 class="achievement-title">${achievement.title}</h3>
+                <div class="achievement-meta">
+                    <span class="achievement-issuer">${achievement.issuer}</span>
+                    <span class="achievement-date">${achievement.date}</span>
+                </div>
+            </div>
+        `;
+        
+        // 添加点击事件，打开灯箱
+        achievementCard.addEventListener('click', () => {
+            openLightbox(achievement);
+        });
+        
+        achievementsGrid.appendChild(achievementCard);
+    });
+}
+
+// 打开灯箱
+function openLightbox(achievement) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxDescription = document.getElementById('lightbox-description');
+    const lightboxIssuer = document.getElementById('lightbox-issuer');
+    const lightboxDate = document.getElementById('lightbox-date');
+    
+    // 设置灯箱内容
+    lightboxImage.src = achievement.image;
+    lightboxImage.alt = achievement.title;
+    lightboxTitle.textContent = achievement.title;
+    lightboxDescription.textContent = achievement.description;
+    lightboxIssuer.textContent = achievement.issuer;
+    lightboxDate.textContent = achievement.date;
+    
+    // 显示灯箱
+    lightbox.classList.add('show');
+    document.body.style.overflow = 'hidden'; // 防止背景滚动
+}
+
+// 关闭灯箱
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    lightbox.classList.remove('show');
+    document.body.style.overflow = 'auto'; // 恢复背景滚动
+}
+
+// 初始化灯箱功能
+function initLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    const closeBtn = document.querySelector('.close-lightbox');
+    
+    // 点击关闭按钮关闭灯箱
+    closeBtn.addEventListener('click', closeLightbox);
+    
+    // 点击灯箱背景关闭灯箱
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+    
+    // 按ESC键关闭灯箱
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('show')) {
+            closeLightbox();
+        }
+    });
 }
 
 // 加载静态Steam数据

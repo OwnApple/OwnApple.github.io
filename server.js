@@ -17,9 +17,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// Steam API配置
-const STEAM_API_KEY = '8011F469DFE5239D5C60A404B2F0A367';
-const STEAM_ID = '76561199123840298';
+// Steam API配置（从环境变量读取以避免在仓库中泄露密钥）
+const STEAM_API_KEY = process.env.STEAM_API_KEY || null; // 请在本地通过 .env 或环境变量提供
+const STEAM_ID = process.env.STEAM_ID || '76561199123840298';
+
+if (!STEAM_API_KEY) {
+    console.warn('WARNING: STEAM_API_KEY is not set. /api/steam/info will return an error. For local dev you can set STEAM_API_KEY in your environment or use fetch-steam.js to populate data/steam-data.json.');
+}
 
 // 获取Steam信息的端点
 app.get('/api/steam/info', async (req, res) => {

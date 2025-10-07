@@ -1,0 +1,11 @@
+{
+  "locations": [
+    {
+      "id": "office",
+      "name": "OwnApple 办公室",
+      "lat": 39.9042,
+      "lng": 116.4074,
+      "description": "北京市 — 示例位置"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "personalInfo": {
+    "name": "OwnApple",
+    "title": "Web Developer",
+    "bio": "一个充满热情的Web开发者，专注于创建美观且用户友好的网站和应用。就像哆啦A梦总能从口袋里拿出神奇的道具，我也能运用各种技术工具来解决问题，创造有趣的用户体验。",
+    "location": "China",
+    "email": "ownapple@example.com",
+    "experience": "3年",
+    "projects": "50+"
+  },
+  "skills": [
+    {
+      "name": "HTML5",
+      "level": 95,
+      "color": "#E34F26",
+      "icon": "fab fa-html5"
+    },
+    {
+      "name": "CSS3",
+      "level": 90,
+      "color": "#1572B6",
+      "icon": "fab fa-css3-alt"
+    },
+    {
+      "name": "JavaScript",
+      "level": 85,
+      "color": "#F7DF1E",
+      "icon": "fab fa-js-square"
+    },
+    {
+      "name": "React",
+      "level": 80,
+      "color": "#61DAFB",
+      "icon": "fab fa-react"
+    },
+    {
+      "name": "Vue.js",
+      "level": 75,
+      "color": "#4FC08D",
+      "icon": "fab fa-vuejs"
+    },
+    {
+      "name": "Node.js",
+      "level": 70,
+      "color": "#339933",
+      "icon": "fab fa-node-js"
+    }
+  ],
+  "interests": [
+    "前端开发",
+    "用户体验设计",
+    "响应式设计",
+    "JavaScript框架",
+    "Web动画"
+  ]
+}
