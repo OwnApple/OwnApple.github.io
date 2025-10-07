@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const fs = require('fs');
 const path = require('path');
 const app = express();
 const PORT = 3002; // 更改端口号
@@ -68,6 +69,49 @@ app.get('/api/steam/info', async (req, res) => {
 // 健康检查端点
 app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+// 接收联系表单（仅本地开发使用）
+app.post('/api/contact', (req, res) => {
+    try {
+        const { name, email, message } = req.body || {};
+        // 简单验证
+        if (!name || !email || !message) {
+            return res.status(400).json({ success: false, error: '缺少必要字段' });
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            return res.status(400).json({ success: false, error: '邮箱格式不正确' });
+        }
+
+        const contactsPath = path.join(__dirname, 'data', 'contacts.json');
+        let contacts = [];
+        if (fs.existsSync(contactsPath)) {
+            try {
+                const raw = fs.readFileSync(contactsPath, 'utf8');
+                contacts = JSON.parse(raw || '[]');
+            } catch (e) {
+                contacts = [];
+            }
+        }
+
+        const entry = {
+            id: Date.now(),
+            name: String(name).trim(),
+            email: String(email).trim(),
+            message: String(message).trim(),
+            createdAt: new Date().toISOString()
+        };
+
+        contacts.push(entry);
+        fs.writeFileSync(contactsPath, JSON.stringify(contacts, null, 2), 'utf8');
+
+        return res.json({ success: true, data: entry });
+    } catch (err) {
+        console.error('处理 /api/contact 时出错:', err);
+        return res.status(500).json({ success: false, error: '服务器错误' });
+    }
 });
 
 // 所有其他路由都返回index.html

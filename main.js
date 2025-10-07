@@ -433,14 +433,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // 模拟异步提交（因为没有后端），显示友好反馈
+            // 如果是本地开发环境（localhost 或 3002），POST 到本地 API；否则使用模拟提交（静态站点）
+            const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.port === '3002';
             feedback.textContent = '正在发送...';
             feedback.classList.remove('error');
 
-            setTimeout(() => {
-                feedback.textContent = `谢谢你的消息，${name}！我会尽快回复你。`;
-                contactForm.reset();
-            }, 800);
+            if (isLocal) {
+                fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, message })
+                }).then(r => r.json())
+                  .then(result => {
+                      if (result && result.success) {
+                          feedback.textContent = `谢谢你的消息，${name}！我会尽快回复你。`;
+                          contactForm.reset();
+                      } else {
+                          feedback.textContent = result.error || '提交失败，请稍后重试';
+                          feedback.classList.add('error');
+                      }
+                  }).catch(err => {
+                      console.error('提交联系表单失败:', err);
+                      feedback.textContent = '提交失败，请检查网络或稍后重试';
+                      feedback.classList.add('error');
+                  });
+            } else {
+                // 静态站点（GitHub Pages）使用模拟行为：展示感谢信息但不发送请求
+                setTimeout(() => {
+                    feedback.textContent = `谢谢你的消息，${name}！我会尽快回复你。`;
+                    contactForm.reset();
+                }, 600);
+            }
         });
     }
 });
