@@ -21,6 +21,19 @@
     --box-shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.15);
     --gradient-primary: linear-gradient(135deg, var(--doraemon-blue), #007acc);
     --gradient-steam: linear-gradient(135deg, var(--steam), #2a3f5a);
+    /* Theme variables (light by default) */
+    --bg-page: rgba(255,255,255,0.7);
+    --text-primary: var(--text-dark);
+    --surface: rgba(255,255,255,0.85);
+}
+
+/* Dark theme variables */
+:root[data-theme='dark'] {
+    --doraemon-blue: #1E90FF; /* accent kept */
+    --bg-page: #0A1931;
+    --text-primary: #E6EEF8;
+    --surface: rgba(10,25,49,0.85);
+    --gradient-primary: linear-gradient(135deg, #0A1931, #12314b);
 }
 
 /* 基础样式 */
@@ -31,7 +44,7 @@ html {
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: var(--text-dark);
+    color: var(--text-primary);
     background-image: url('images/background1.jpg');
     background-size: cover;
     background-position: center;
@@ -39,6 +52,22 @@ body {
     background-attachment: fixed;
     position: relative;
     overflow-x: hidden;
+}
+
+/* Content fade for section switching */
+.page-fade-enter {
+    animation: pageFadeIn 360ms ease forwards;
+}
+.page-fade-exit {
+    animation: pageFadeOut 300ms ease forwards;
+}
+@keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pageFadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; transform: translateY(-6px); }
 }
 
 /* 侧边栏菜单 */
@@ -144,6 +173,28 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Top controls container */
+.top-controls {
+    position: fixed;
+    top: 18px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 1100;
+}
+
+/* Mobile specific: hide original footer links and use hamburger */
+@media (max-width: 768px) {
+    .footer-links { display: none; }
+    .menu-toggle { display: flex; }
+}
+
+/* Improved touch targets */
+.tool-button, .menu-toggle, .submit-button {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.05);
 }
 
 .menu-toggle:hover {
@@ -1198,6 +1249,32 @@ body {
 .tool-button:last-child {
     margin-bottom: 0;
 }
+
+/* Navigation tool specific styling */
+.nav-tool {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(90deg, rgba(30,144,255,0.08), rgba(30,144,255,0.02));
+    color: var(--doraemon-blue);
+    font-weight: 700;
+}
+
+.nav-tool:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+/* Page fade/enter transition */
+.page-fade-enter {
+    animation: pageFadeEnter 360ms ease forwards;
+}
+
+@keyframes pageFadeEnter {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 
 /* 工具容器通用样式 */
 .tool-container {

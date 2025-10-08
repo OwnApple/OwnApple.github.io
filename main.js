@@ -3,10 +3,23 @@ console.log('Portfolio site loaded successfully!');
 
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', () => {
+    console.debug('DOM ready - main initialization starting');
     // 初始化哆啦A梦功能
     initDoraemon();
     
     // 初始化滚动功能
+    // Initialize AOS if available
+    if (window.AOS) {
+        AOS.init({
+            duration: 600,
+            once: true,
+            mirror: false,
+            disable: function() {
+                // disable on very old devices
+                return /Mobi|Android/.test(navigator.userAgent) && window.innerWidth < 420;
+            }
+        });
+    }
     initScrolling();
     
     // 初始化灯箱功能
@@ -20,6 +33,243 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 初始化计算器
     initCalculator();
+
+    // --- bind new nav tools and keep existing tool behaviors ---
+    const mapping = {
+        'tool-door': 'hero', // 任意门 -> 首页
+        'tool-map': 'projects', // 探险地图 -> 项目
+        'tool-id': 'about', // 身份卡 -> 关于
+        'tool-comm': 'contact' // 传话机 -> 联系
+    };
+
+    Object.keys(mapping).forEach(toolId => {
+        const btn = document.getElementById(toolId);
+        if (!btn) return;
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const toolMenu = document.getElementById('tool-menu');
+            if (toolMenu) toolMenu.classList.remove('show');
+            // If the tool is the project map, try to load real GitHub data
+            if (toolId === 'tool-map' && window.loadRealGithubData) {
+                // show projects section then load live data
+                showContent('projects');
+                try { window.loadRealGithubData('OwnApple'); } catch (err) { console.error('loadRealGithubData failed', err); }
+            } else {
+                showContent(mapping[toolId]);
+            }
+        });
+    });
+
+    // Keep original open-steam/open-github/open-calculator behaviors
+    const openSteamBtn = document.getElementById('open-steam');
+    if (openSteamBtn) openSteamBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.getElementById('tool-menu').classList.remove('show');
+        document.getElementById('tool-steam').classList.add('show');
+        loadSteamData();
+    });
+
+    const openGithubBtn = document.getElementById('open-github');
+    if (openGithubBtn) openGithubBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.getElementById('tool-menu').classList.remove('show');
+        document.getElementById('tool-github').classList.add('show');
+        loadGithubData();
+    });
+
+    const openCalculatorBtn = document.getElementById('open-calculator');
+    if (openCalculatorBtn) openCalculatorBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.getElementById('tool-menu').classList.remove('show');
+        document.getElementById('tool-calculator').classList.add('show');
+    });
+
+    // Hamburger menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    if (menuToggle && sidebar) {
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+    }
+
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        const setTheme = (t) => {
+            document.documentElement.setAttribute('data-theme', t);
+            themeToggle.setAttribute('aria-pressed', t === 'dark');
+        };
+        // restore preference
+        const pref = localStorage.getItem('site-theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        setTheme(pref);
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme') || 'light';
+            const next = current === 'dark' ? 'light' : 'dark';
+            setTheme(next);
+            localStorage.setItem('site-theme', next);
+        });
+    }
+
+    // Language toggle (i18n)
+    const langToggle = document.getElementById('lang-toggle');
+    const loadLang = async (lang) => {
+        try {
+            const res = await fetch(`./i18n/${lang}.json`);
+            const data = await res.json();
+
+            console.debug('Loaded language', lang, data);
+
+            // Update elements with data-i18n
+            let applied = 0;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const val = data[key];
+                if (typeof val === 'undefined') return;
+
+                // If element supports placeholder or value, prefer updating them
+                if (el.hasAttribute('placeholder')) {
+                    el.setAttribute('placeholder', val);
+                } else if (el.tagName === 'INPUT' || el.tagName === 'BUTTON' || el.tagName === 'TEXTAREA') {
+                    // update button/value text where appropriate
+                    if (el.type === 'submit' || el.tagName === 'BUTTON') {
+                        el.textContent = val;
+                    } else {
+                        el.value = val;
+                    }
+                } else {
+                    el.textContent = val;
+                }
+                applied++;
+            });
+
+            console.debug(`Applied ${applied} translations for language ${lang}`);
+
+            // Update document title if provided
+            if (data['meta.title']) {
+                document.title = data['meta.title'];
+            }
+        } catch (e) {
+            console.error('加载语言包失败，尝试使用内联备份', e);
+            try {
+                const fallback = window.__I18N_FALLBACK && window.__I18N_FALLBACK[lang];
+                if (fallback) {
+                    console.debug('Applying inline fallback i18n for', lang);
+                    // apply fallback the same way
+                    let applied = 0;
+                    document.querySelectorAll('[data-i18n]').forEach(el => {
+                        const key = el.getAttribute('data-i18n');
+                        const val = fallback[key];
+                        if (typeof val === 'undefined') return;
+                        if (el.hasAttribute('placeholder')) {
+                            el.setAttribute('placeholder', val);
+                        } else if (el.tagName === 'INPUT' || el.tagName === 'BUTTON' || el.tagName === 'TEXTAREA') {
+                            if (el.type === 'submit' || el.tagName === 'BUTTON') {
+                                el.textContent = val;
+                            } else {
+                                el.value = val;
+                            }
+                        } else {
+                            el.textContent = val;
+                        }
+                        applied++;
+                    });
+                    if (fallback['meta.title']) document.title = fallback['meta.title'];
+                    console.debug(`Applied ${applied} inline translations for language ${lang}`);
+                }
+            } catch (err) {
+                console.error('应用内联语言包失败', err);
+            }
+        }
+    };
+    const currentLang = localStorage.getItem('site-lang') || 'zh';
+    loadLang(currentLang);
+    if (langToggle) {
+        langToggle.textContent = currentLang === 'en' ? 'EN' : '中';
+        langToggle.addEventListener('click', () => {
+            const next = (localStorage.getItem('site-lang') || 'zh') === 'zh' ? 'en' : 'zh';
+            console.debug('lang-toggle clicked, switching to', next);
+            localStorage.setItem('site-lang', next);
+            try {
+                loadLang(next);
+            } catch (err) {
+                console.error('loadLang threw', err);
+            }
+            langToggle.textContent = next === 'en' ? 'EN' : '中';
+        });
+    }
+
+    // Contact form handling
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            let valid = true;
+            const errorName = document.getElementById('error-name');
+            const errorEmail = document.getElementById('error-email');
+            const errorMessage = document.getElementById('error-message');
+            errorName.textContent = '';
+            errorEmail.textContent = '';
+            errorMessage.textContent = '';
+
+            if (!name.trim()) { errorName.textContent = '请输入姓名'; valid = false; }
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) { errorEmail.textContent = '请输入有效的邮箱地址'; valid = false; }
+            if (!message.trim() || message.trim().length < 5) { errorMessage.textContent = '留言内容不少于 5 个字符'; valid = false; }
+
+            const feedback = document.getElementById('contact-feedback');
+            if (!valid) { feedback.textContent = '请修正表单错误后再提交。'; feedback.classList.add('error'); return; }
+
+            const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.port === '3002';
+            feedback.textContent = '正在发送...'; feedback.classList.remove('error');
+
+            if (isLocal) {
+                fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, message }) })
+                .then(r => r.json()).then(result => {
+                    if (result && result.success) { feedback.textContent = `谢谢你的消息，${name}！我会尽快回复你。`; contactForm.reset(); }
+                    else { feedback.textContent = result.error || '提交失败，请稍后重试'; feedback.classList.add('error'); }
+                }).catch(err => { console.error('提交联系表单失败:', err); feedback.textContent = '提交失败，请检查网络或稍后重试'; feedback.classList.add('error'); });
+            } else {
+                setTimeout(() => { feedback.textContent = `谢谢你的消息，${name}！我会尽快回复你。`; contactForm.reset(); }, 600);
+            }
+        });
+    }
+
+    // Social tooltip & map initialization
+    (function setupSocialTooltips(){
+        let tooltipEl = document.getElementById('custom-tooltip');
+        if (!tooltipEl) { tooltipEl = document.createElement('div'); tooltipEl.id = 'custom-tooltip'; tooltipEl.setAttribute('role','tooltip'); document.body.appendChild(tooltipEl); }
+        const showTooltip = (el, text, rect) => { tooltipEl.textContent = text; tooltipEl.style.display = 'block'; const top = rect.top - tooltipEl.offsetHeight - 8; const left = rect.left + (rect.width / 2) - (tooltipEl.offsetWidth / 2); tooltipEl.style.top = (top > 8 ? top : rect.bottom + 8) + 'px'; tooltipEl.style.left = Math.max(8, left) + 'px'; tooltipEl.classList.add('visible'); };
+        const hideTooltip = () => { tooltipEl.classList.remove('visible'); setTimeout(() => tooltipEl.style.display = 'none', 200); };
+        const socialCards = document.querySelectorAll('.social-card');
+        socialCards.forEach(card => {
+            const tip = card.getAttribute('data-tooltip') || card.querySelector('span')?.textContent || '';
+            card.addEventListener('mouseenter', (e) => { const rect = card.getBoundingClientRect(); showTooltip(card, tip, rect); });
+            card.addEventListener('mouseleave', hideTooltip);
+            card.addEventListener('focus', (e) => { const rect = card.getBoundingClientRect(); showTooltip(card, tip, rect); });
+            card.addEventListener('blur', hideTooltip);
+            card.addEventListener('click', (e) => { const rect = card.getBoundingClientRect(); if (tooltipEl.style.display === 'block') hideTooltip(); else showTooltip(card, tip, rect); });
+        });
+    })();
+
+    const mapEl = document.getElementById('contact-map');
+    if (mapEl && window.L) {
+        fetch('./data/contact-data.json').then(r => r.json()).then(data => {
+            const locations = data.locations || [];
+            const defaultCenter = locations.length ? [locations[0].lat, locations[0].lng] : [39.9042, 116.4074];
+            const map = L.map('contact-map', { scrollWheelZoom: false }).setView(defaultCenter, 12);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+            locations.forEach(loc => { const marker = L.marker([loc.lat, loc.lng]).addTo(map); const popupHtml = `<strong>${loc.name}</strong><br>${loc.description || ''}`; marker.bindPopup(popupHtml); });
+            if (locations.length === 1) { const single = locations[0]; L.marker([single.lat, single.lng]).openPopup(); }
+        }).catch(err => { console.error('加载 contact-data.json 失败:', err); mapEl.innerHTML = '<div class="map-error">无法加载地图数据</div>'; });
+    }
+
+    // Button click effects
+    const buttons = document.querySelectorAll('.cta-button, .demo-link, .code-link, .submit-button, .outline-button');
+    buttons.forEach(button => { button.addEventListener('click', function(e) { this.classList.add('clicked'); setTimeout(() => { this.classList.remove('clicked'); }, 300); }); });
 });
 
 // 初始化哆啦A梦功能
@@ -37,12 +287,12 @@ function initDoraemon() {
         doraemonAvatar.style.opacity = '1';
         doraemonAvatar.style.transform = 'translateY(0)';
     }, 1000);
-    
+
     // 页面加载后立即显示一次对话框
     setTimeout(() => {
         fetchAndShowRandomMessage();
     }, 2000);
-    
+
     // 每30秒显示一次对话框
     setInterval(() => {
         fetchAndShowRandomMessage();
@@ -152,6 +402,29 @@ function initDoraemon() {
         });
     });
 }
+
+// 内容切换：显示一个 section，隐藏其他所有主要内容区并应用平滑过渡
+function showContent(sectionId) {
+    const contentSections = [
+        'hero', 'projects', 'about', 'contact', 'steam'
+    ];
+
+    contentSections.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+            if (id === sectionId) {
+            el.style.display = 'block';
+            // add enter animation class and remove after animation duration
+            el.classList.add('page-fade-enter');
+            setTimeout(() => el.classList.remove('page-fade-enter'), 360);
+        } else {
+            el.style.display = 'none';
+            el.classList.remove('page-fade-enter');
+        }
+    });
+}
+
+// Duplicate initialization block removed; initialization is handled by the main DOMContentLoaded listener at the top of this file.
 
 // 加载Steam数据（静态版本）
 function loadSteamData() {
@@ -280,7 +553,10 @@ function showSection(target) {
     }
     
     if (targetElement) {
-        targetElement.style.display = 'block';
+    targetElement.style.display = 'block';
+    // 添加进入动画类并在动画后移除，保持与 showContent 一致的切换效果
+    targetElement.classList.add('page-fade-enter');
+    setTimeout(() => targetElement.classList.remove('page-fade-enter'), 360);
         // 滚动到顶部
         window.scrollTo({
             top: 0,
@@ -389,196 +665,11 @@ function showSteamError() {
     gamesGrid.innerHTML = '<div class="error-message">无法加载游戏列表</div>';
 }
 
-// 联系表单提交处理
-document.addEventListener('DOMContentLoaded', () => {
-    const contactForm = document.getElementById('contact-form');
-    
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // 获取表单数据
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-            
-            // 简单验证并显示错误
-            let valid = true;
-            const errorName = document.getElementById('error-name');
-            const errorEmail = document.getElementById('error-email');
-            const errorMessage = document.getElementById('error-message');
-            errorName.textContent = '';
-            errorEmail.textContent = '';
-            errorMessage.textContent = '';
+// contact form handling moved to main DOMContentLoaded handler
 
-            if (!name.trim()) {
-                errorName.textContent = '请输入姓名';
-                valid = false;
-            }
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                errorEmail.textContent = '请输入有效的邮箱地址';
-                valid = false;
-            }
-            if (!message.trim() || message.trim().length < 5) {
-                errorMessage.textContent = '留言内容不少于 5 个字符';
-                valid = false;
-            }
+// social tooltip & map initialization moved to main DOMContentLoaded handler
 
-            const feedback = document.getElementById('contact-feedback');
-
-            if (!valid) {
-                feedback.textContent = '请修正表单错误后再提交。';
-                feedback.classList.add('error');
-                return;
-            }
-
-            // 如果是本地开发环境（localhost 或 3002），POST 到本地 API；否则使用模拟提交（静态站点）
-            const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.port === '3002';
-            feedback.textContent = '正在发送...';
-            feedback.classList.remove('error');
-
-            if (isLocal) {
-                fetch('/api/contact', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, message })
-                }).then(r => r.json())
-                  .then(result => {
-                      if (result && result.success) {
-                          feedback.textContent = `谢谢你的消息，${name}！我会尽快回复你。`;
-                          contactForm.reset();
-                      } else {
-                          feedback.textContent = result.error || '提交失败，请稍后重试';
-                          feedback.classList.add('error');
-                      }
-                  }).catch(err => {
-                      console.error('提交联系表单失败:', err);
-                      feedback.textContent = '提交失败，请检查网络或稍后重试';
-                      feedback.classList.add('error');
-                  });
-            } else {
-                // 静态站点（GitHub Pages）使用模拟行为：展示感谢信息但不发送请求
-                setTimeout(() => {
-                    feedback.textContent = `谢谢你的消息，${name}！我会尽快回复你。`;
-                    contactForm.reset();
-                }, 600);
-            }
-        });
-    }
-});
-
-// 社交链接 tooltip 与地图初始化
-document.addEventListener('DOMContentLoaded', () => {
-    // 社交自定义 tooltip（使用 data-tooltip 属性，替换 title）
-    (function setupSocialTooltips(){
-        // 创建 tooltip 元素（单例）
-        let tooltipEl = document.getElementById('custom-tooltip');
-        if (!tooltipEl) {
-            tooltipEl = document.createElement('div');
-            tooltipEl.id = 'custom-tooltip';
-            tooltipEl.setAttribute('role', 'tooltip');
-            document.body.appendChild(tooltipEl);
-        }
-
-        const showTooltip = (el, text, rect) => {
-            tooltipEl.textContent = text;
-            tooltipEl.style.display = 'block';
-            // 基于元素位置设置 tooltip（尽量在上方）
-            const top = rect.top - tooltipEl.offsetHeight - 8;
-            const left = rect.left + (rect.width / 2) - (tooltipEl.offsetWidth / 2);
-            tooltipEl.style.top = (top > 8 ? top : rect.bottom + 8) + 'px';
-            tooltipEl.style.left = Math.max(8, left) + 'px';
-            tooltipEl.classList.add('visible');
-        };
-
-        const hideTooltip = () => {
-            tooltipEl.classList.remove('visible');
-            // 保持 display none 一会儿以允许动画
-            setTimeout(() => tooltipEl.style.display = 'none', 200);
-        };
-
-        const socialCards = document.querySelectorAll('.social-card');
-        socialCards.forEach(card => {
-            const tip = card.getAttribute('data-tooltip') || card.querySelector('span')?.textContent || '';
-            // hover
-            card.addEventListener('mouseenter', (e) => {
-                const rect = card.getBoundingClientRect();
-                showTooltip(card, tip, rect);
-            });
-            card.addEventListener('mouseleave', hideTooltip);
-            // keyboard focus
-            card.addEventListener('focus', (e) => {
-                const rect = card.getBoundingClientRect();
-                showTooltip(card, tip, rect);
-            });
-            card.addEventListener('blur', hideTooltip);
-            // touch / click: toggle tooltip for accessibility on small devices
-            card.addEventListener('click', (e) => {
-                // prevent default for placeholders
-                const rect = card.getBoundingClientRect();
-                if (tooltipEl.style.display === 'block') {
-                    hideTooltip();
-                } else {
-                    showTooltip(card, tip, rect);
-                }
-            });
-        });
-    })();
-
-    // 初始化 Leaflet 地图（如果容器存在）
-    const mapEl = document.getElementById('contact-map');
-    if (mapEl && window.L) {
-        // 先加载 contact-data.json
-        fetch('./data/contact-data.json')
-            .then(r => r.json())
-            .then(data => {
-                const locations = data.locations || [];
-                const defaultCenter = locations.length ? [locations[0].lat, locations[0].lng] : [39.9042, 116.4074];
-
-                const map = L.map('contact-map', { scrollWheelZoom: false }).setView(defaultCenter, 12);
-
-                // 使用 OpenStreetMap 瓦片
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; OpenStreetMap contributors'
-                }).addTo(map);
-
-                // 添加标记
-                locations.forEach(loc => {
-                    const marker = L.marker([loc.lat, loc.lng]).addTo(map);
-                    const popupHtml = `<strong>${loc.name}</strong><br>${loc.description || ''}`;
-                    marker.bindPopup(popupHtml);
-                });
-
-                // 若只有一个标记，打开弹窗
-                if (locations.length === 1) {
-                    const single = locations[0];
-                    L.marker([single.lat, single.lng]).openPopup();
-                }
-            })
-            .catch(err => {
-                console.error('加载 contact-data.json 失败:', err);
-                mapEl.innerHTML = '<div class="map-error">无法加载地图数据</div>';
-            });
-    }
-});
-
-// 添加按钮点击效果
-document.addEventListener('DOMContentLoaded', () => {
-    const buttons = document.querySelectorAll('.cta-button, .demo-link, .code-link, .submit-button, .outline-button');
-    
-    buttons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            // 添加点击效果
-            this.classList.add('clicked');
-            
-            // 移除点击效果
-            setTimeout(() => {
-                this.classList.remove('clicked');
-            }, 300);
-        });
-    });
-});
+// button click effects moved to main DOMContentLoaded handler
 
 // ========== 静态数据加载函数 ==========
 

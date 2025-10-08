@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OwnApple 的作品集 - 融合哆啦A梦元素的个人网站</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- AOS for scroll animations -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Leaflet for contact map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-sA+e2Gk0pQb1fY9gP+gq8s8ZlYkQ0sQYk0/6Y5q5t3s=" crossorigin="" />
@@ -12,16 +14,21 @@
 <body>
     <!-- 主要内容区域 -->
     <div class="main-content" id="main-content">
+        <!-- Top controls: theme and language (removed top-left hamburger to rely on Doraemon menu) -->
+        <div class="top-controls">
+            <button id="theme-toggle" class="tool-button" aria-pressed="false" title="切换深色/浅色主题">🌗</button>
+            <button id="lang-toggle" class="tool-button" title="切换语言">EN</button>
+        </div>
         <!-- Hero Section -->
         <section id="hero" class="hero-section">
             <div class="container">
                 <div class="hero-content">
-                    <h1 class="name">OwnApple</h1>
-                    <h2 class="title">一个默默无闻的地球online玩家</h2>
-                    <p class="intro">用技术创造奇迹，就像哆啦A梦的百宝袋一样无限可能</p>
+                    <h1 class="name" data-i18n="hero.title">OwnApple</h1>
+                    <h2 class="title" data-i18n="hero.subtitle">一个默默无闻的地球online玩家</h2>
+                    <p class="intro" data-i18n="hero.intro">用技术创造奇迹，就像哆啦A梦的百宝袋一样无限可能</p>
                     <div class="hero-buttons">
-                        <a href="javascript:void(0)" onclick="showSection('projects')" class="cta-button">查看我的项目</a>
-                        <a href="javascript:void(0)" onclick="showSection('contact')" class="outline-button">联系我</a>
+                        <a href="javascript:void(0)" onclick="showSection('projects')" class="cta-button" data-i18n="hero.cta_projects">查看我的项目</a>
+                        <a href="javascript:void(0)" onclick="showSection('contact')" class="outline-button" data-i18n="hero.cta_contact">联系我</a>
                     </div>
                 </div>
             </div>
@@ -50,7 +57,11 @@
         <!-- GitHub Projects Section -->
         <section id="projects" class="projects-section" style="display: none;">
             <div class="container">
-                <h2>我的GitHub项目</h2>
+                <h2 data-i18n="projects.title">我的GitHub项目</h2>
+                <!-- GitHub contributions chart (generated from username) -->
+                <div class="ghchart-wrap">
+                    <img id="ghchart" src="" alt="GitHub contributions" style="max-width:100%;height:auto;display:none;" />
+                </div>
                 <div class="projects-grid" id="github-projects-grid">
                     <!-- GitHub项目将通过JavaScript动态加载 -->
                     <div class="loading">正在加载项目...</div>
@@ -61,7 +72,7 @@
         <!-- Steam Section -->
         <section id="steam" class="steam-section" style="display: none;">
             <div class="container">
-                <h2>我的Steam信息</h2>
+                <h2 data-i18n="steam.title">我的Steam信息</h2>
                 <div class="steam-content">
                     <div class="steam-info" id="steam-info">
                         <div class="loading">正在加载Steam信息...</div>
@@ -79,7 +90,7 @@
         <!-- About Section -->
         <section id="about" class="about-section" style="display: none;">
             <div class="container">
-                <h2>关于我</h2>
+                <h2 data-i18n="about.title">关于我</h2>
                 
                 <!-- 个人简介区域 -->
                 <div class="personal-intro">
@@ -115,7 +126,7 @@
 
                 <!-- 技能展示区域 -->
                 <div class="skills-section">
-                    <h3>技能专长</h3>
+                    <h3 data-i18n="about.skills">技能专长</h3>
                     <div class="skills-grid" id="skills-grid">
                         <!-- 技能进度条将通过JavaScript动态加载 -->
                     </div>
@@ -123,7 +134,7 @@
 
                 <!-- 专业经历时间线 -->
                 <div class="experience-section">
-                    <h3>专业经历</h3>
+                    <h3 data-i18n="about.experience">专业经历</h3>
                     <div class="timeline" id="experience-timeline">
                         <div class="timeline-item">
                             <div class="timeline-marker">
@@ -169,7 +180,7 @@
 
                 <!-- 兴趣爱好 -->
                 <div class="interests-section">
-                    <h3>兴趣爱好</h3>
+                    <h3 data-i18n="about.interests">兴趣爱好</h3>
                     <div class="interests-tags" id="interests-tags">
                                 <div class="field-error" id="error-name"></div>
                         <!-- 兴趣标签将通过JavaScript动态加载 -->
@@ -193,25 +204,25 @@
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="contact-section" style="display: none;">
+    <section id="contact" class="contact-section" style="display: none;">
             <div class="container">
-                <h2>联系我</h2>
+        <h2 data-i18n="contact.title">联系我</h2>
                 <div class="contact-content">
                     <div class="contact-form">
                         <form id="contact-form">
                             <div class="form-group">
-                                <input type="text" id="name" name="name" placeholder="你的名字" required>
+                                <input type="text" id="name" name="name" placeholder="你的名字" data-i18n="contact.placeholder.name" required>
                                 <div class="field-error" id="error-name"></div>
                             </div>
                             <div class="form-group">
-                                <input type="email" id="email" name="email" placeholder="你的邮箱" required>
+                                <input type="email" id="email" name="email" placeholder="你的邮箱" data-i18n="contact.placeholder.email" required>
                                 <div class="field-error" id="error-email"></div>
                             </div>
                             <div class="form-group">
-                                <textarea id="message" name="message" placeholder="你的消息" rows="5" required></textarea>
+                                <textarea id="message" name="message" placeholder="你的消息" data-i18n="contact.placeholder.message" rows="5" required></textarea>
                                 <div class="field-error" id="error-message"></div>
                             </div>
-                            <button type="submit" class="submit-button" id="contact-submit">发送消息</button>
+                            <button type="submit" class="submit-button" id="contact-submit" data-i18n="send.message">发送消息</button>
                             <div id="contact-feedback" class="contact-feedback" role="status" aria-live="polite"></div>
                         </form>
                     </div>
@@ -244,14 +255,14 @@
             <div class="container">
                 <div class="footer-content">
                     <div class="footer-info">
-                        <h3>OwnApple</h3>
-                        <p>一个默默无闻的地球online玩家</p>
+                        <h3 data-i18n="footer.title">OwnApple</h3>
+                        <p data-i18n="footer.subtitle">一个默默无闻的地球online玩家</p>
                     </div>
                     <div class="footer-links">
-                        <a href="javascript:void(0)" onclick="showSection('home')">首页</a>
-                        <a href="javascript:void(0)" onclick="showSection('projects')">项目</a>
-                        <a href="javascript:void(0)" onclick="showSection('about')">关于</a>
-                        <a href="javascript:void(0)" onclick="showSection('contact')">联系</a>
+                        <span data-i18n="nav.home">首页</span>
+                        <span data-i18n="nav.projects">项目</span>
+                        <span data-i18n="nav.about">关于</span>
+                        <span data-i18n="nav.contact">联系</span>
                     </div>
                     <div class="social-links">
                         <a href="https://github.com/OwnApple" target="_blank" rel="noopener noreferrer">
@@ -278,19 +289,32 @@
 
     <!-- 菜单气泡选项 -->
     <div id="menu-bubbles" class="menu-bubbles">
-        <div class="bubble-option" data-target="home" data-label="主页">
+        <div class="bubble-option" data-target="home" data-label="主页" data-i18n="nav.home">
             <i class="fas fa-home"></i>
         </div>
         <div class="bubble-option" data-target="projects" data-label="项目">
+        
+            <i class="fas fa-code"></i>
+        </div>
+        <div class="bubble-option" data-target="projects" data-label="项目" data-i18n="nav.projects">
             <i class="fas fa-code"></i>
         </div>
         <div class="bubble-option" data-target="steam" data-label="Steam">
             <i class="fab fa-steam"></i>
         </div>
+        <div class="bubble-option" data-target="steam" data-label="Steam" data-i18n="nav.steam">
+            <i class="fab fa-steam"></i>
+        </div>
         <div class="bubble-option" data-target="about" data-label="关于">
             <i class="fas fa-user"></i>
         </div>
+        <div class="bubble-option" data-target="about" data-label="关于" data-i18n="nav.about">
+            <i class="fas fa-user"></i>
+        </div>
         <div class="bubble-option" data-target="contact" data-label="联系">
+            <i class="fas fa-envelope"></i>
+        </div>
+        <div class="bubble-option" data-target="contact" data-label="联系" data-i18n="nav.contact">
             <i class="fas fa-envelope"></i>
         </div>
     </div>
@@ -298,16 +322,11 @@
     <!-- 哆啦A梦工具菜单 -->
     <div id="tool-menu" class="tool-menu">
         <div class="menu-content">
-            <h3>请选择一个道具</h3>
-            <button id="open-steam" class="tool-button" data-tooltip="功能：查看我的Steam游戏状态">
-                <i class="fas fa-tv"></i> 电视君
-            </button>
-            <button id="open-github" class="tool-button" data-tooltip="功能：展示我的GitHub贡献">
-                <i class="fas fa-chart-line"></i> 时间望远镜
-            </button>
-            <button id="open-calculator" class="tool-button" data-tooltip="功能：一个简易的计算器">
-                <i class="fas fa-calculator"></i> 算术糖果
-            </button>
+            <h3 data-i18n="pocket.title">请选择一个道具</h3>
+            <div class="pocket-search">
+                <input type="search" id="pocket-search-input" placeholder="搜索道具..." aria-label="搜索道具">
+            </div>
+            <div id="pocket-items" class="pocket-items" aria-live="polite"></div>
         </div>
     </div>
 
@@ -425,6 +444,11 @@
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-o9N1j8c2Qf3b9uW+gqgXHkqQbYp3q9k+X3g9m2u6Y5s=" crossorigin=""></script>
+    <!-- AOS JS (scroll animations) -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="projector.js"></script>
+    <script src="i18n-inline.js"></script>
+    <script src="pocket.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

@@ -1,0 +1,28 @@
+{
+  "hero.title": "OwnApple",
+  "hero.subtitle": "A low-profile Earth Online player",
+  "hero.intro": "I build things with code—like Doraemon's gadget bag, full of possibilities.",
+  "nav.home": "Home",
+  "nav.projects": "Projects",
+  "nav.about": "About",
+  "nav.contact": "Contact",
+  "hero.cta_projects": "View my projects",
+  "hero.cta_contact": "Contact me",
+  "about.skills": "Skills",
+  "about.experience": "Experience",
+  "about.interests": "Interests",
+  "footer.title": "OwnApple",
+  "footer.subtitle": "A low-profile Earth Online player",
+  "projects.title": "My GitHub Projects",
+  "steam.title": "My Steam Info",
+  "about.title": "About Me",
+  "contact.title": "Contact Me",
+  "meta.title": "OwnApple - Portfolio",
+  "contact.placeholder.name": "Your name",
+  "contact.placeholder.email": "Your email",
+  "contact.placeholder.message": "Your message",
+  "send.message": "Send Message",
+  "loading": "Loading..."
+
+  ,"nav.steam": "Steam"
+}
