@@ -323,10 +323,30 @@
     <div id="tool-menu" class="tool-menu">
         <div class="menu-content">
             <h3 data-i18n="pocket.title">请选择一个道具</h3>
-            <div class="pocket-search">
-                <input type="search" id="pocket-search-input" placeholder="搜索道具..." aria-label="搜索道具">
-            </div>
-            <div id="pocket-items" class="pocket-items" aria-live="polite"></div>
+            <!-- 静态道具按钮（恢复原先实现，避免动态渲染出错） -->
+            <button id="open-steam" class="tool-button" data-tooltip="功能：查看我的Steam游戏状态">
+                <i class="fas fa-tv"></i> 电视君
+            </button>
+            <button id="open-github" class="tool-button" data-tooltip="功能：展示我的GitHub贡献">
+                <i class="fas fa-chart-line"></i> 时间望远镜
+            </button>
+            <button id="open-calculator" class="tool-button" data-tooltip="功能：一个简易的计算器">
+                <i class="fas fa-calculator"></i> 算术糖果
+            </button>
+
+            <hr style="margin:12px 0;border:none;border-top:1px solid rgba(0,0,0,0.05);">
+                <button id="tool-door" class="tool-button nav-tool" data-tooltip="打开任意门回到首页" aria-label="任意门，回到首页" title="任意门：回到首页">
+                    🚪 任意门
+                </button>
+                <button id="tool-map" class="tool-button nav-tool" data-tooltip="查看我的项目探险地图" aria-label="探险地图，查看项目" title="探险地图：查看项目">
+                    🗺️ 探险地图
+                </button>
+                <button id="tool-id" class="tool-button nav-tool" data-tooltip="查看我的身份信息" aria-label="身份卡，查看关于" title="身份卡：查看关于">
+                    🪪 身份卡
+                </button>
+                <button id="tool-comm" class="tool-button nav-tool" data-tooltip="用传话机联系我" aria-label="传话机，联系我" title="传话机：联系我">
+                    📞 传话机
+                </button>
         </div>
     </div>
 
@@ -448,7 +468,6 @@
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script src="projector.js"></script>
     <script src="i18n-inline.js"></script>
-    <script src="pocket.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
