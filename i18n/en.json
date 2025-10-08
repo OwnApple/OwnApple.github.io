@@ -25,4 +25,11 @@
   "loading": "Loading..."
 
   ,"nav.steam": "Steam"
+  ,"pocket.steam": "TV Buddy (Steam)"
+  ,"pocket.github": "Time Telescope (GitHub)"
+  ,"pocket.calc": "Arithmetic Candy"
+  ,"pocket.door": "Anywhere Door"
+  ,"pocket.map": "Adventure Map"
+  ,"pocket.id": "ID Card"
+  ,"pocket.comm": "Transceiver"
 }

@@ -26,6 +26,13 @@ window.__I18N_FALLBACK = {
     "send.message": "发送消息",
     "loading": "正在加载...",
     "nav.steam": "Steam"
+    ,"pocket.steam": "电视君 (Steam)"
+    ,"pocket.github": "时间望远镜 (GitHub)"
+    ,"pocket.calc": "算术糖果"
+    ,"pocket.door": "任意门"
+    ,"pocket.map": "探险地图"
+    ,"pocket.id": "身份卡"
+    ,"pocket.comm": "传话机"
   },
   en: {
     "hero.title": "OwnApple",
@@ -53,5 +60,12 @@ window.__I18N_FALLBACK = {
     "send.message": "Send Message",
     "loading": "Loading...",
     "nav.steam": "Steam"
+    ,"pocket.steam": "TV Buddy (Steam)"
+    ,"pocket.github": "Time Telescope (GitHub)"
+    ,"pocket.calc": "Arithmetic Candy"
+    ,"pocket.door": "Anywhere Door"
+    ,"pocket.map": "Adventure Map"
+    ,"pocket.id": "ID Card"
+    ,"pocket.comm": "Transceiver"
   }
 };

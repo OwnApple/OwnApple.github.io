@@ -6,7 +6,7 @@
       "issuer": "阿里巴巴",
       "date": "2023-06-15",
       "description": "通过阿里巴巴前端开发工程师技能认证",
-      "image": "images/certificates/frontend-cert.jpg",
+  "image": "https://images.unsplash.com/photo-1588072432836-e10032774350?w=800&q=80&auto=format&fit=crop",
       "category": "技术认证"
     },
     {
@@ -15,7 +15,7 @@
       "issuer": "腾讯课堂",
       "date": "2023-03-20",
       "description": "完成React高级开发实战课程",
-      "image": "images/certificates/react-course.jpg",
+  "image": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=80&auto=format&fit=crop",
       "category": "在线课程"
     },
     {
@@ -24,7 +24,7 @@
       "issuer": "网易云课堂",
       "date": "2023-01-10",
       "description": "完成用户界面和用户体验设计基础课程",
-      "image": "images/certificates/ui-design.jpg",
+  "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80&auto=format&fit=crop",
       "category": "设计课程"
     },
     {
@@ -33,7 +33,7 @@
       "issuer": "慕课网",
       "date": "2022-11-25",
       "description": "JavaScript高级编程技能认证",
-      "image": "images/certificates/js-advanced.jpg",
+  "image": "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?w=800&q=80&auto=format&fit=crop",
       "category": "技术认证"
     },
     {
@@ -42,7 +42,7 @@
       "issuer": "极客时间",
       "date": "2022-09-15",
       "description": "响应式网页设计专项课程认证",
-      "image": "images/certificates/responsive-design.jpg",
+  "image": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80&auto=format&fit=crop",
       "category": "设计课程"
     },
     {
@@ -51,7 +51,7 @@
       "issuer": "GitHub",
       "date": "2022-08-01",
       "description": "GitHub开源项目贡献者认证",
-      "image": "images/certificates/github-contributor.jpg",
+  "image": "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&q=80&auto=format&fit=crop",
       "category": "开源贡献"
     }
   ],
