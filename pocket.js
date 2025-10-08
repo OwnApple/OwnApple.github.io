@@ -10,13 +10,30 @@
     { id: 'tool-comm', labelKey: 'pocket.comm', emoji: '📞', action: () => showSection('contact') }
   ];
 
+  const LABEL_MAP = {
+    'pocket.steam': '电视君 (Steam)',
+    'pocket.github': '时间望远镜 (GitHub)',
+    'pocket.calc': '算术糖果',
+    'pocket.door': '任意门',
+    'pocket.map': '探险地图',
+    'pocket.id': '身份卡',
+    'pocket.comm': '传话机'
+  };
+
+  function humanLabel(key) {
+    return LABEL_MAP[key] || key;
+  }
+
   function createItemNode(item) {
     const btn = document.createElement('button');
     btn.className = 'bubble-option pocket-button';
     btn.id = item.id;
     btn.setAttribute('type', 'button');
-    btn.setAttribute('data-tooltip', item.labelKey);
-    btn.setAttribute('aria-label', item.labelKey);
+    const hlabel = humanLabel(item.labelKey || item.id);
+    btn.setAttribute('data-tooltip', hlabel);
+    btn.setAttribute('data-label', hlabel);
+    btn.setAttribute('title', hlabel);
+    btn.setAttribute('aria-label', hlabel);
 
     const inner = document.createElement('span');
     inner.className = 'pocket-inner';

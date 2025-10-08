@@ -1231,30 +1231,36 @@ body {
    menu. Override those here so pocket buttons are visible and nicely laid
    out inside the tool-menu. */
 .tool-menu .pocket-items {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 8px;
+    justify-items: center;
     align-items: center;
     padding-top: 6px;
+    width: 260px;
 }
 
+/* Make pocket items readable: remove floating-bubble tooltip for items inside the menu */
 .tool-menu .pocket-items .bubble-option {
-    /* override bubble hidden state */
     transform: scale(1) !important;
     opacity: 1 !important;
-    width: 56px;
-    height: 56px;
-    margin: 6px;
-    font-size: 1.1rem;
+    width: 72px;
+    height: 72px;
+    margin: 0;
+    font-size: 1.2rem;
     background: var(--surface);
     color: var(--doraemon-blue);
     box-shadow: var(--box-shadow);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    position: relative;
+}
+
+.tool-menu .pocket-items .bubble-option::after {
+    display: none; /* hide floating tooltip label inside tool menu */
 }
 
 .tool-menu .pocket-items .bubble-option:hover {
-    transform: scale(1.08);
+    transform: translateY(-4px) scale(1.03);
     box-shadow: var(--box-shadow-hover);
 }
 
@@ -1262,13 +1268,24 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
+    padding: 6px 4px;
+}
+
+.tool-menu .pocket-items .pocket-inner i {
+    font-size: 1.25rem;
 }
 
 .tool-menu .pocket-items .pocket-label {
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     display: block;
     color: var(--text-primary);
+    text-align: center;
+    line-height: 1.1;
+    max-width: 68px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .tool-button {
