@@ -311,6 +311,12 @@ function initDoraemon() {
         
         // 显示工具菜单
         toolMenu.classList.add('show');
+
+        // Accessibility: focus the first tool button and enable keyboard nav
+        const toolButtons = toolMenu.querySelectorAll('.tool-button');
+        if (toolButtons && toolButtons.length) {
+            toolButtons[0].focus();
+        }
         
         // 添加按压动画
         doraemonAvatar.classList.add('pressed');
@@ -334,6 +340,32 @@ function initDoraemon() {
             toolGithub.classList.remove('show');
             toolCalculator.classList.remove('show');
             menuBubbles.classList.remove('show');
+        }
+    });
+
+    // Keyboard navigation for tool menu
+    document.addEventListener('keydown', (e) => {
+        const isToolMenuOpen = toolMenu.classList.contains('show');
+        if (!isToolMenuOpen) return;
+        const toolButtons = Array.from(toolMenu.querySelectorAll('.tool-button'));
+        if (!toolButtons.length) return;
+        const active = document.activeElement;
+        const idx = toolButtons.indexOf(active);
+        if (e.key === 'Escape') {
+            // Close menu
+            toolMenu.classList.remove('show');
+            doraemonAvatar.focus();
+        } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            const next = (idx === -1) ? 0 : (idx + 1) % toolButtons.length;
+            toolButtons[next].focus();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            const prev = (idx === -1) ? 0 : (idx - 1 + toolButtons.length) % toolButtons.length;
+            toolButtons[prev].focus();
+        } else if (e.key === 'Enter' && idx >= 0) {
+            e.preventDefault();
+            toolButtons[idx].click();
         }
     });
     
